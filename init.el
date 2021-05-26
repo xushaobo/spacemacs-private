@@ -93,8 +93,9 @@ This function should only modify configuration layer settings."
      (typescript :variables
                  typescript-fmt-on-save nil
                  typescript-fmt-tool 'typescript-formatter
-                typescript-backend 'lsp)
+                 typescript-backend 'lsp)
      emacs-lisp
+     (scala :variables scala-indent:use-javadoc-style t)
      (clojure :variables clojure-enable-fancify-symbols t)
      racket
      (c-c++ :variables
