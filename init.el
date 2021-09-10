@@ -76,7 +76,11 @@ This function should only modify configuration layer settings."
      deft
      markdown
      (org :variables org-want-todo-bindings t
-          org-enable-hugo-support t)
+          org-enable-hugo-support t
+          org-enable-valign t
+          org-enable-org-journal-support t
+          :packages (not org-roam)
+          )
      gpu
      yaml
      react
@@ -103,8 +107,10 @@ This function should only modify configuration layer settings."
             c-c++-backend 'lsp-ccls
             c-c++-lsp-executable (file-truename "/usr/local/bin/ccls"))
      zilongshanren
+     Boyang
      (chinese :variables chinese-enable-youdao-dict t)
      )
+   
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -112,7 +118,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(sicp ssh-agency anki-editor)
+   dotspacemacs-additional-packages '(sicp ssh-agency anki-editor org-noter org-pdftools)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -122,7 +128,7 @@ This function should only modify configuration layer settings."
                     evil-indent-plus volatile-highlights smartparens
                     spaceline holy-mode skewer-mode rainbow-delimiters
                     highlight-indentation vi-tilde-fringe eyebrowse ws-butler
-                    smooth-scrolling org-repo-todo org-download org-timer
+                    smooth-scrolling org-repo-todo org-timer
                     livid-mode git-gutter git-gutter-fringe  evil-escape
                     leuven-theme gh-md evil-lisp-state spray lorem-ipsum symon
                     ac-ispell ace-jump-mode auto-complete auto-dictionary
@@ -497,10 +503,10 @@ dump."
 (defun dotspacemacs/user-init ()
 
   (setq load-path (cons (file-truename "~/.spacemacs.d/") load-path))
-  (setq-default configuration-layer-elpa-archives
-                '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-                  ("org-cn"   . "http://elpa.emacs-china.org/org/")
-                  ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  ;; (setq-default configuration-layer-elpa-archives
+  ;;               '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+  ;;                 ("org-cn"   . "http://elpa.emacs-china.org/org/")
+  ;;                 ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
   
   (setq term-char-mode-point-at-process-mark nil)
@@ -529,6 +535,8 @@ dump."
   ;; (package-generate-autoloads "org-plus-contrib" "~/.emacs.d/elpa/27.1/develop/org-plus-contrib-20190902/")
   
   (setq rust-format-on-save t)
+  (setq rime-emacs-module-header-root nil)
+  (setq org-roam-v2-ack t)
   
   ;;解决org表格里面中英文对齐的问题 
   (when (configuration-layer/layer-usedp 'chinese)
