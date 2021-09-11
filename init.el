@@ -108,6 +108,7 @@ This function should only modify configuration layer settings."
             c-c++-lsp-executable (file-truename "/usr/local/bin/ccls"))
      zilongshanren
      Boyang
+     Boyang-research
      (chinese :variables chinese-enable-youdao-dict t)
      )
    
