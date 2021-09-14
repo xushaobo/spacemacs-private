@@ -53,7 +53,8 @@
     org-pdftools
     org-noter
     org-noter-pdftool
-    (org-roam-ui :location (recipe :fetcher github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
+    org-roam-ui
+    websocket
     )
   "The list of Lisp packages required by the Boyang-research layer.
 
@@ -226,13 +227,26 @@ Each entry is either:
     (with-eval-after-load 'pdf-annot
       (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
   )
-;; (defun Boyang-research/init-org-roam-ui ()
-;;  :after org-roam
-;;  :config
-;;  (setq org-roam-ui-sync-theme t
-;;        org-roam-ui-follow t
-;;        org-roam-ui-update-on-save t
-;;        org-roam-ui-open-on-start t)
-;;  )
 
+(defun Boyang-research/init-wesocket ()
+  (use-package websocket
+    :ensure t
+    :after org-roam)
+  )
 
+(defun Boyang-research/init-org-roam-ui ()
+  (use-package org-roam-ui
+    :quelpa ((org-roam-ui :fetcher github
+                          :repo "org-roam/org-roam-ui"
+                          :branch "main"
+                          :files ("*.el" "out"))
+             :upgrade t
+             )
+    :after org-roam
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t)
+    )
+  )
