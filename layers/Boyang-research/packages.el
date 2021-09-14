@@ -48,8 +48,12 @@
                       :files (:defaults "extensions/*")))
     (org-roam-bibtex :location
                      (recipe :fetcher github :repo "org-roam/org-roam-bibtex"))
-    (bibtex)
+    bibtex
     deft
+    org-pdftools
+    org-noter
+    org-noter-pdftool
+    (org-roam-ui :location (recipe :fetcher github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
     )
   "The list of Lisp packages required by the Boyang-research layer.
 
@@ -162,22 +166,71 @@ Each entry is either:
   (use-package org-roam-bibtex
     :after org-roam
     :hook (org-roam-mode . org-roam-bibtex-mode)
+    :custom
+    (orb-preformat-keywords '("citekey" "title" "url" "author-or-editor" "keywords" "file"))
+    (orb-process-file-keyword t)
+    (orb-file-field-extensions '("pdf" "epub" "html"))
+
+    (setq orb-preformat-keywords
+          '("citekey" "title" "url" "author-or-editor" "keywords" "file"))
+
+    (setq orb-templates
+          '(("r" "ref" plain (function org-roam-capture--get-point)
+             ""
+             :file-name "${citekey}"
+             :head "#+TITLE: ${citekey}: ${title}\n#+ROAM_KEY: ${ref}
+
+- tags ::
+- keywords :: ${keywords}
+
+* ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:URL: ${url}
+:AUTHOR: ${author-or-editor}
+:NOTER_DOCUMENT: ${file}
+:NOTER_PAGE:
+:END:")))
+    
     :bind (:map org-mode-map
                 (("C-c n a" . orb-note-actions)))))
-(defun Boyang-research/init-bibtex ()
-  (use-package bibtex
 
-    :config
-    (setq org-ref-default-bibliography '("~/reference.bib")
-          org-ref-pdf-directory "~/papers/"
-          org-ref-bibliography-notes "~/papers/notes.org"))
-  
+(defun Boyang-research/init-org-pdftools ()
+  (use-package org-pdftools
+    :hook (org-load . org-pdftools-setup-link))
   )
 
-(defun Boyang-research/post-init-deft ()
-  (progn
-    (setq deft-use-filter-string-for-filename t)
-    (setq deft-recursive t)
-    (setq deft-extension '("org" "md"))
-    (setq deft-directory deft-dir)))
+(defun Boyang-research/init-org-noter ()
+  (use-package org-noter
+    :after (:any org pdf-view)
+    :custom (org-noter-always-create-frame nil))
+  )
+(defun Boyang-research/init-bibtex ()
+  (use-package bibtex
+    :config
+    (setq
+     bibtex-completion-bibliography (expand-file-name "~/reference.bib")
+     bibtex-completion-pdf-field "file"
+     ;; org-ref stuff (but used by bibtex layer)
+     org-ref-default-bibliography (list bibtex-completion-bibliography)
+     org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+     org-ref-pdf-directory "~/papers/"
+     org-ref-bibliography-notes "~/papers/notes.org")))
+
+(defun Boyang-research/init-org-noter-pdftools ()
+  (use-package org-noter-pdftools
+    :after org-noter
+    :config
+    (with-eval-after-load 'pdf-annot
+      (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+  )
+;; (defun Boyang-research/init-org-roam-ui ()
+;;  :after org-roam
+;;  :config
+;;  (setq org-roam-ui-sync-theme t
+;;        org-roam-ui-follow t
+;;        org-roam-ui-update-on-save t
+;;        org-roam-ui-open-on-start t)
+;;  )
+
 
