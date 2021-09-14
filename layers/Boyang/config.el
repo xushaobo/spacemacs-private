@@ -16,7 +16,8 @@
   (setq
    org-agenda-dir "~/org-notes"
    deft-dir "~/org-notes"
-   blog-admin-dir "~/yanboyang713.github.io"))
+   blog-admin-dir "~/yanboyang713.github.io"
+   org-roam-directory "~/orgRoam"))
 
 
 ;;load sensitive data

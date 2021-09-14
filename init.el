@@ -108,7 +108,7 @@ This function should only modify configuration layer settings."
             c-c++-lsp-executable (file-truename "/usr/local/bin/ccls"))
      zilongshanren
      Boyang
-     Boyang-research
+     ;; Boyang-research
      (chinese :variables chinese-enable-youdao-dict t)
      )
    
@@ -537,7 +537,6 @@ dump."
   
   (setq rust-format-on-save t)
   (setq rime-emacs-module-header-root nil)
-  (setq org-roam-v2-ack t)
   
   ;;解决org表格里面中英文对齐的问题 
   (when (configuration-layer/layer-usedp 'chinese)

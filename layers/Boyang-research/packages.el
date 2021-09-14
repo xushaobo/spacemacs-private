@@ -48,6 +48,8 @@
                       :files (:defaults "extensions/*")))
     (org-roam-bibtex :location
                      (recipe :fetcher github :repo "org-roam/org-roam-bibtex"))
+    (bibtex)
+    deft
     )
   "The list of Lisp packages required by the Boyang-research layer.
 
@@ -76,8 +78,10 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
-(defun org-roam/init-org-roam ()
+(defun Boyang-research/init-org-roam ()
   (use-package org-roam
+    ;; :diminish
+    ;; :hook (after-init . org-roam-db-autosync-enable)
     :defer t
     ;; :demand t
     :hook (after-init . org-roam-mode)
@@ -85,9 +89,8 @@ Each entry is either:
     ;; (add-hook 'after-init-hook 'org-roam-mode)
     :init
     (setq org-roam-v2-ack t)
-    (org-roam-setup)
     :custom
-    (org-roam-directory "~/orgRoam") ;; please change it to your path
+    (org-roam-directory org-roam-directory) ;; please change it to your path
     :config
     (progn
       (spacemacs/declare-prefix "aor" "org-roam")
@@ -101,6 +104,7 @@ Each entry is either:
         "aor/" 'org-roam-node-find
         "aorc" 'org-roam-capture
         ;; "aorg" 'org-roam-graph
+        "aorh" 'org-id-get-create
         "aori" 'org-roam-node-insert
         "aorl" 'org-roam-buffer-toggle
         "aorta" 'org-roam-tag-add
@@ -119,6 +123,7 @@ Each entry is either:
         "r/" 'org-roam-node-find
         "rc" 'org-roam-capture
         ;; "rg" 'org-roam-graph
+        "rh" 'org-id-get-create
         "ri" 'org-roam-node-insert
         "rl" 'org-roam-buffer-toggle
         "rta" 'org-roam-tag-add
@@ -129,6 +134,7 @@ Each entry is either:
                 #'org-roam-reflinks-insert-section
                 ))
     (setq org-roam-file-extensions '("org"))
+    (org-roam-setup)
 
     ;; templates
     (setq org-roam-capture-templates
@@ -152,9 +158,26 @@ Each entry is either:
                                 "#+title: %<%Y-%m-%d>\n"))))
     ))
 
-(defun org-roam/init-org-roam-bibtex ()
+(defun Boyang-research/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
     :after org-roam
     :hook (org-roam-mode . org-roam-bibtex-mode)
     :bind (:map org-mode-map
                 (("C-c n a" . orb-note-actions)))))
+(defun Boyang-research/init-bibtex ()
+  (use-package bibtex
+
+    :config
+    (setq org-ref-default-bibliography '("~/reference.bib")
+          org-ref-pdf-directory "~/papers/"
+          org-ref-bibliography-notes "~/papers/notes.org"))
+  
+  )
+
+(defun Boyang-research/post-init-deft ()
+  (progn
+    (setq deft-use-filter-string-for-filename t)
+    (setq deft-recursive t)
+    (setq deft-extension '("org" "md"))
+    (setq deft-directory deft-dir)))
+

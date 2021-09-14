@@ -17,7 +17,7 @@
     (org :location built-in)
     ;; org-mac-link
     org-pomodoro
-    deft
+    ;; deft
     sound-wav
     ob-typescript
     evil-org
@@ -746,15 +746,15 @@ holding contextual information."
     :init
     (add-hook 'org-mode-hook 'worf-mode)))
 
-(defun zilongshanren-org/post-init-deft ()
-  (progn
-    (setq deft-use-filter-string-for-filename t)
-    (setq deft-recursive t)
-    (setq deft-extension "org")
-    (setq deft-directory deft-dir)))
+;; (defun zilongshanren-org/post-init-deft ()
+;;   (progn
+;;     (setq deft-use-filter-string-for-filename t)
+;;     (setq deft-recursive t)
+;;     (setq deft-extension "org")
+;;     (setq deft-directory deft-dir)))
 
-(defun zilongshanren-org/init-sound-wav ()
-  (use-package sound-wav
-    :defer t
-    :init))
+ (defun zilongshanren-org/init-sound-wav ()
+   (use-package sound-wav
+     :defer t
+     :init))
 ;;; packages.el ends here
