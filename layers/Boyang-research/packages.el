@@ -166,6 +166,8 @@ Each entry is either:
   (use-package org-roam-bibtex
     :after org-roam
     :hook (org-roam-mode . org-roam-bibtex-mode)
+    :config
+    (require 'org-ref)
     :custom
     (orb-preformat-keywords '("citekey" "title" "url" "author-or-editor" "keywords" "file"))
     (orb-process-file-keyword t)
