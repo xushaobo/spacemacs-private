@@ -109,6 +109,7 @@ This function should only modify configuration layer settings."
      zilongshanren
      Boyang
      ;; Boyang-research
+     (conda :variables conda-anaconda-home "/opt/anaconda")
      (chinese :variables chinese-enable-youdao-dict t)
      )
    
