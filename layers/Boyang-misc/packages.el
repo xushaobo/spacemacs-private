@@ -42,7 +42,7 @@
 
 (defconst Boyang-misc-packages
   '(
-    quelpa
+    
     )
   "The list of Lisp packages required by the Boyang-misc layer.
 
@@ -70,14 +70,3 @@ Each entry is either:
 
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
-
-(defun Boyang-misc/init-quelpa ()
-  (use-package quelpa
-    :ensure t
-    :config
-    (use-package quelpa-use-package :ensure t)  ;; quelpa integration with use-package
-    :custom
-    (quelpa-update-melpa-p nil)
-    (quelpa-self-upgrade-p nil)
-    (quelpa-checkout-melpa-p nil))
-  )
